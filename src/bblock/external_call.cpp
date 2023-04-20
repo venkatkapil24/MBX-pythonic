@@ -285,6 +285,15 @@ void get_induced_dipoles_(double* mu_i_out) {
     std::copy(mu_i.begin(), mu_i.end(), mu_i_out);
 }
 
+/**
+ * VK 
+ */
+void get_permanent_dipoles_(double* mu_p_out) {
+    std::vector<double> mu_p, mu_i;
+    my_s->GetDipoles(mu_p, mu_i);
+    std::copy(mu_p.begin(), mu_p.end(), mu_p_out);
+}
+
 void redistribute_gradients_(double* grd, int* nsites) {
     std::vector<double> grad(grd, grd + 3 * (*nsites));
     my_s->RedistributeGradients(grad);

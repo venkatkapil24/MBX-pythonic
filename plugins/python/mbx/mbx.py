@@ -198,6 +198,27 @@ def get_induced_dipoles(number_of_atoms,units="mbx"):
   mu_out = [mu[i]*l_mbx2inp for i in range(len(mu))]
   return mu_out
 
+def get_permanent_dipoles(number_of_atoms,units="mbx"):
+  # Define conversion factors
+  l_mbx2inp = 1.0
+  l_inp2mbx = 1.0
+  e_mbx2inp = 1.0
+  e_inp2mbx = 1.0
+  if units == "au":
+    l_mbx2inp = MBXLENGTH2AU
+    l_inp2mbx = AULENGTH2MBX
+    e_mbx2inp = MBXENERGY2AU
+    e_inp2mbx = AUENERGY2MBX
+
+  mux = [0.0]*(3*number_of_atoms)
+  mu =  (ctypes.c_double * len(mux)) (*mux)
+  #mu = np.zeros(3*number_of_atoms,dtype=np.float64)
+  mbxlib.get_permanent_dipoles_(mu)
+  mu_out = [mu[i]*l_mbx2inp for i in range(len(mu))]
+  return mu_out
+
+
+
 def redistribute_gradients(grads_in, number_of_atoms,units="mbx"):
   # Define conversion factors
   l_mbx2inp = 1.0
